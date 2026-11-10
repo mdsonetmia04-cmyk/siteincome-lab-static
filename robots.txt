@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mdsonetmia04-cmyk.github.io/siteincome-lab-static/sitemap.xml
