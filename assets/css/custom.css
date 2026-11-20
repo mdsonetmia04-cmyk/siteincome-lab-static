@@ -36,3 +36,26 @@
 @media (max-width: 768px) { .post-nav a { max-width: 100%; } .logo-text { font-size: 20px; } }
 .ad-slot { text-align: center; margin: 30px auto; }
 .ad-slot iframe { max-width: 100%; }
+/* Homepage v4: compact header (no big hero), denser grid, exact-size ad slots */
+.page-head { padding: 118px 0 6px; text-align: center; }
+.page-head .page-title { font-size: var(--fs-2); margin-bottom: 8px; }
+.page-head .page-title span { color: var(--citrine); }
+.page-tagline { color: var(--gray-x); font-size: var(--fs-8); max-width: 640px; margin: 0 auto 18px; line-height: 1.7; }
+.page-head .filter-list { margin-bottom: 0; }
+.home-grid { padding-block: 22px 100px; }
+.home-grid .movies-list { gap: 22px 16px; }
+.movie-card .card-banner { margin-bottom: 10px; }
+.movie-card .title-wrapper { margin-bottom: 6px; gap: 10px; }
+.movie-card .card-title { font-size: var(--fs-8); }
+.card-excerpt { -webkit-line-clamp: 2; margin-top: 8px; }
+.movie-card .card-meta { gap: 10px; }
+@media (min-width: 1024px) { .home-grid .movies-list { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1200px) { .home-grid .movies-list { grid-template-columns: repeat(5, 1fr); } }
+.ad-slot-wrap { text-align: center; margin: 0 auto 26px; }
+.ad-label { display: block; color: var(--gray-x); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.ad-slot-box { margin-inline: auto; outline: 1px dashed rgba(217,165,33,.45); outline-offset: -1px; background: rgba(255,255,255,.02); overflow: hidden; }
+.ad-468x60 { width: 468px; height: 60px; max-width: 100%; }
+.ad-160x300 { width: 160px; height: 300px; }
+.movies-list > li.ad-slot-item { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.movies-list > li.ad-slot-item .ad-slot-wrap { margin-bottom: 0; }
+@media (max-width: 768px) { .page-head { padding-top: 100px; } }
