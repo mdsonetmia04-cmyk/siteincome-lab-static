@@ -1,5 +1,5 @@
 /* SiteIncome Lab — overrides on top of the FilmLane template */
-.logo-text { font-size: 26px; font-weight: 700; color: var(--white); letter-spacing: .5px; white-space: nowrap; }
+.logo-text { font-size: 26px; font-weight: 700; color: var(--white); letter-spacing: .5px; white-space: nowrap; flex-shrink: 0; }
 .logo-text span { color: var(--citrine); }
 .footer-text { color: var(--gray-x); font-size: var(--fs-9); max-width: 460px; margin-top: 15px; line-height: 1.8; }
 .hero { position: relative; }
@@ -67,6 +67,17 @@
 .ad-slot-box iframe { display: block; width: 100%; height: 100%; border: 0; }
 .ad-468x60 { width: 468px; height: 60px; max-width: 100%; }
 .ad-160x300 { width: 160px; height: 300px; }
+.ad-728x90 { width: 728px; height: 90px; max-width: 100%; }
+.ad-300x250 { width: 300px; height: 250px; }
+.ad-160x600 { width: 160px; height: 600px; }
+.ad-320x50 { width: 320px; height: 50px; max-width: 100%; }
+/* Native Banner is fluid: reserve a visible box (min-height) so the slot never
+   renders as a bare "Advertisement" label; the box grows with the creative. */
+.ad-native { width: 100%; max-width: 728px; min-height: 140px; }
+/* Full-width ad rows BETWEEN grid chunks (never inside the card grid, so no
+   tall ad ever shares a row with post cards and no card row is stretched). */
+.ad-row-wrap { text-align: center; margin: 26px auto; }
+.ad-row-wrap .ad-label { display: block; color: var(--gray-x); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
 .movies-list > li.ad-slot-item { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .movies-list > li.ad-slot-item .ad-slot-wrap { margin-bottom: 0; }
 @media (max-width: 768px) { .page-head { padding-top: 132px; } }
