@@ -37,11 +37,17 @@
 .ad-slot { text-align: center; margin: 30px auto; }
 .ad-slot iframe { max-width: 100%; }
 /* Homepage v4: compact header (no big hero), denser grid, exact-size ad slots */
-.page-head { padding: 118px 0 6px; text-align: center; }
+.page-head { padding: 150px 0 6px; text-align: center; } /* v4.1: extra top clearance so the H1 never sits under the fixed header */
 .page-head .page-title { font-size: var(--fs-2); margin-bottom: 8px; }
 .page-head .page-title span { color: var(--citrine); }
 .page-tagline { color: var(--gray-x); font-size: var(--fs-8); max-width: 640px; margin: 0 auto 18px; line-height: 1.7; }
 .page-head .filter-list { margin-bottom: 0; }
+/* v4.1: homepage filter buttons are NOT inside .top-rated, so the template's
+   .top-rated .filter-btn rules never applied — bare buttons rendered as faint
+   dark text. Give them the full pill style here (white text, visible border). */
+.page-head .filter-btn { color: var(--white); background: var(--raisin-black); font-size: var(--fs-11); font-weight: var(--fw-500); border: 2px solid var(--gunmetal-1); padding: 12px 26px; border-radius: 50px; }
+.page-head .filter-btn:hover { border-color: var(--citrine); color: var(--citrine); }
+.page-head .filter-btn.active { background: var(--citrine); color: var(--black); border-color: var(--citrine); }
 .home-grid { padding-block: 22px 100px; }
 .home-grid .movies-list { gap: 22px 16px; }
 .movie-card .card-banner { margin-bottom: 10px; }
@@ -53,9 +59,15 @@
 @media (min-width: 1200px) { .home-grid .movies-list { grid-template-columns: repeat(5, 1fr); } }
 .ad-slot-wrap { text-align: center; margin: 0 auto 26px; }
 .ad-label { display: block; color: var(--gray-x); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-.ad-slot-box { margin-inline: auto; outline: 1px dashed rgba(217,165,33,.45); outline-offset: -1px; background: rgba(255,255,255,.02); overflow: hidden; }
+/* v4.1: a real border (not outline) + visible tint so the slot reads as a boxed
+   ad unit even when no creative is served; the injected iframe is sized to the
+   inner content box so it can never cover the border ring. Box stays exactly
+   468x60 / 160x300 incl. border (box-sizing: border-box). */
+.ad-slot-box { margin-inline: auto; border: 1px solid rgba(217,165,33,.6); background: rgba(217,165,33,.08); box-sizing: border-box; overflow: hidden; }
+.ad-slot-box iframe { display: block; width: 100%; height: 100%; border: 0; }
 .ad-468x60 { width: 468px; height: 60px; max-width: 100%; }
 .ad-160x300 { width: 160px; height: 300px; }
 .movies-list > li.ad-slot-item { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .movies-list > li.ad-slot-item .ad-slot-wrap { margin-bottom: 0; }
-@media (max-width: 768px) { .page-head { padding-top: 100px; } }
+@media (max-width: 768px) { .page-head { padding-top: 132px; } }
+@media (max-width: 480px) { .page-head .page-title { font-size: 26px; } } /* v4.1: keep the H1 on one line on small phones */
