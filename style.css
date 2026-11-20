@@ -109,3 +109,5 @@ article.post h1{font-size:28px}
 .foot-grid{grid-template-columns:1fr}
 .topbar .tagline-long{display:none}
 }
+.ad-slot{text-align:center;margin:26px 0}
+.ad-slot iframe{max-width:100%}
