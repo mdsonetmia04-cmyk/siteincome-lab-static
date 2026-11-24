@@ -134,12 +134,11 @@ button{font:inherit;cursor:pointer}
 .breaking-tag{background:#fff;color:$(accentColor);font-size:12px;font-weight:900;letter-spacing:.12em;padding:4px 9px;border-radius:2px;white-space:nowrap;flex:0 0 auto;z-index:2}
 .breaking-link{color:#fff;font-size:15px;font-weight:700;white-space:nowrap}
 .breaking-link:hover{color:#fff;text-decoration:underline}
-/* TV-style scrolling ticker: headlines glide right-to-left, pause on hover */
+/* TV-style scrolling ticker: top 5 headlines glide right-to-left, nonstop */
 .ticker-viewport{flex:1;min-width:0;overflow:hidden}
 .ticker-track{display:inline-flex;white-space:nowrap;animation:ticker-scroll 45s linear infinite;will-change:transform}
 .ticker-group{display:inline-flex;align-items:center;white-space:nowrap}
 .ticker-sep{color:#ffd6d6;padding:0 18px;font-weight:900}
-.breaking-bar:hover .ticker-track{animation-play-state:paused}
 @keyframes ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion: reduce){.ticker-track{animation:none}}
 
@@ -1161,9 +1160,7 @@ body#layout #toTop{display:none !important}
     fetchFeed('/feeds/posts/default?alt=json&max-results=5', function (entries) {
       if (!entries.length) { breakingTrack.innerHTML = '<span class="ticker-group"><a class="breaking-link" href="/">Top stories from around the globe.</a></span>'; return; }
       var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
-      var items = entries.slice(0, 5);
-      while (items.length < 6) { items = items.concat(entries); }
-      items = items.slice(0, 6);
+      var items = entries.slice(0, 5); /* exactly the top 5 latest titles, one after another, nonstop */
       var group = '<span class="ticker-group">' + items.map(function (e) {
         return '<a class="breaking-link" href="' + postUrl(e) + '">' + esc(e.title.$t) + '</a><span class="ticker-sep">&#8226;</span>';
       }).join('') + '</span>';
