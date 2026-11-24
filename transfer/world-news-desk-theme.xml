@@ -131,9 +131,17 @@ button{font:inherit;cursor:pointer}
 /* ============ Breaking bar ============ */
 .breaking-bar{background:$(accentColor);color:#fff}
 .breaking-inner{display:flex;align-items:center;gap:12px;min-height:40px;padding-top:6px;padding-bottom:6px}
-.breaking-tag{background:#fff;color:$(accentColor);font-size:12px;font-weight:900;letter-spacing:.12em;padding:4px 9px;border-radius:2px;white-space:nowrap}
-.breaking-link{color:#fff;font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.breaking-tag{background:#fff;color:$(accentColor);font-size:12px;font-weight:900;letter-spacing:.12em;padding:4px 9px;border-radius:2px;white-space:nowrap;flex:0 0 auto;z-index:2}
+.breaking-link{color:#fff;font-size:15px;font-weight:700;white-space:nowrap}
 .breaking-link:hover{color:#fff;text-decoration:underline}
+/* TV-style scrolling ticker: headlines glide right-to-left, pause on hover */
+.ticker-viewport{flex:1;min-width:0;overflow:hidden}
+.ticker-track{display:inline-flex;white-space:nowrap;animation:ticker-scroll 45s linear infinite;will-change:transform}
+.ticker-group{display:inline-flex;align-items:center;white-space:nowrap}
+.ticker-sep{color:#ffd6d6;padding:0 18px;font-weight:900}
+.breaking-bar:hover .ticker-track{animation-play-state:paused}
+@keyframes ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.ticker-track{animation:none}}
 
 /* ============ Ad slots ============ */
 .ad-slot{margin:20px 0 0;text-align:center}
@@ -450,11 +458,11 @@ body#layout #toTop{display:none !important}
   </form>
 </div>
 
-<!-- ================= BREAKING BAR (JS fills latest story) ================= -->
+<!-- ================= BREAKING BAR — TV-style scrolling ticker (JS fills headlines) ================= -->
 <div class='breaking-bar'>
   <div class='wrap breaking-inner'>
     <span class='breaking-tag'>BREAKING NEWS</span>
-    <a class='breaking-link' href='/' id='breakingLink'>Loading latest news...</a>
+    <div class='ticker-viewport'><div class='ticker-track' id='breakingTrack'><span class='ticker-group'><a class='breaking-link' href='/'>Loading latest news...</a></span></div></div>
   </div>
 </div>
 
@@ -1147,13 +1155,19 @@ body#layout #toTop{display:none !important}
     }).catch(function () { done([]); });
   }
 
-  /* Breaking bar: latest post */
-  var breakingLink = document.getElementById('breakingLink');
-  if (breakingLink) {
-    fetchFeed('/feeds/posts/default?alt=json&max-results=1', function (entries) {
-      if (!entries.length) { breakingLink.textContent = 'Top stories from around the globe.'; return; }
-      breakingLink.textContent = entries[0].title.$t;
-      breakingLink.href = postUrl(entries[0]);
+  /* Breaking bar: TV-style scrolling ticker of the latest headlines */
+  var breakingTrack = document.getElementById('breakingTrack');
+  if (breakingTrack) {
+    fetchFeed('/feeds/posts/default?alt=json&max-results=5', function (entries) {
+      if (!entries.length) { breakingTrack.innerHTML = '<span class="ticker-group"><a class="breaking-link" href="/">Top stories from around the globe.</a></span>'; return; }
+      var esc = function (s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+      var items = entries.slice(0, 5);
+      while (items.length < 6) { items = items.concat(entries); }
+      items = items.slice(0, 6);
+      var group = '<span class="ticker-group">' + items.map(function (e) {
+        return '<a class="breaking-link" href="' + postUrl(e) + '">' + esc(e.title.$t) + '</a><span class="ticker-sep">&#8226;</span>';
+      }).join('') + '</span>';
+      breakingTrack.innerHTML = group + group;
     });
   }
 
